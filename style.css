@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Mystery+Quest&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(45deg, #1a0033, #330066, #4d0080, #1a0033);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    font-family: 'Mystery Quest', cursive;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+.crystal-ball {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 30px;
+}
+
+.glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3), rgba(138,43,226,0.6), rgba(75,0,130,0.8));
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.inner-ball {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(138,43,226,0.2), rgba(25,25,112,0.9));
+    overflow: hidden;
+}
+
+.swirls {
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 Q50,20 80,50 Q50,80 20,50" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/></svg>');
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.title {
+    font-family: 'Creepster', cursive;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px #ff00ff, 0 0 40px #8a2be2;
+    animation: flicker 4s ease-in-out infinite;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.subtitle {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 40px;
+    font-style: italic;
+    color: #dda0dd;
+}
+
+.prediction-box {
+    background: rgba(0,0,0,0.7);
+    border: 3px solid #8a2be2;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px 0;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(138,43,226,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.prediction-box::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff00ff, #8a2be2, #4b0082, #ff00ff);
+    border-radius: 20px;
+    z-index: -1;
+    animation: borderGlow 3s linear infinite;
+}
+
+@keyframes borderGlow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.prediction-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #ffd700;
+}
+
+.prediction-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mystical-button {
+    background: linear-gradient(45deg, #8a2be2, #4b0082);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: 'Mystery Quest', cursive;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(138,43,226,0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.mystical-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(138,43,226,0.6);
+    background: linear-gradient(45deg, #9932cc, #6a0dad);
+}
+
+.mystical-button:active {
+    transform: translateY(0);
+}
+
+.disclaimer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #dda0dd;
+}
+
+.fine-print {
+    font-size: 0.7rem;
+    margin-top: 10px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.sparkle {
+    position: absolute;
+    color: #ffd700;
+    font-size: 1.5rem;
+    animation: sparkleFloat 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes sparkleFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+    
+    .prediction-box {
+        margin: 20px 10px;
+        padding: 20px;
+    }
+    
+    .mystical-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+}
