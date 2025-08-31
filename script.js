@@ -49,22 +49,71 @@ class TomorrowInator {
     const button = document.getElementById("predict-btn");
     const predictionDiv = document.getElementById("prediction");
 
+    // Check if user prefers reduced motion
+    this.reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // Detect mobile devices
+    this.isMobile =
+      window.innerWidth <= 768 ||
+      /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+
     button.addEventListener("click", () => {
       this.createSparkles();
       this.animatePrediction(predictionDiv);
       this.createMysticalEffects();
     });
 
-    // Add some ambient effects
-    setInterval(() => this.createAmbientSparkle(), 2000);
-    setInterval(() => this.createFloatingGhost(), 8000);
-    setInterval(() => this.createMysticalOrb(), 5000);
+    // Add touch support for mobile
+    button.addEventListener("touchstart", () => {
+      button.style.transform = "translateY(0)";
+    });
 
-    // Add mystical runes around the page
-    this.createMysticalRunes();
+    // Reduce effects on mobile for better performance
+    const sparkleInterval = this.isMobile ? 4000 : 2000;
+    const ghostInterval = this.isMobile ? 15000 : 8000;
+    const orbInterval = this.isMobile ? 10000 : 5000;
 
-    // Add spooky sounds (visual representation)
-    this.addSpookySoundEffects();
+    // Add ambient effects with reduced frequency on mobile
+    if (!this.reducedMotion) {
+      setInterval(() => this.createAmbientSparkle(), sparkleInterval);
+      setInterval(() => this.createFloatingGhost(), ghostInterval);
+      setInterval(() => this.createMysticalOrb(), orbInterval);
+
+      // Add mystical runes around the page
+      this.createMysticalRunes();
+
+      // Add spooky sounds (visual representation)
+      this.addSpookySoundEffects();
+    }
+
+    // Handle orientation changes
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => {
+        this.handleResize();
+      }, 100);
+    });
+
+    // Handle window resize
+    window.addEventListener("resize", () => {
+      this.handleResize();
+    });
+  }
+
+  handleResize() {
+    // Update mobile detection on resize
+    this.isMobile = window.innerWidth <= 768;
+
+    // Clear existing runes and recreate them for new viewport
+    const existingRunes = document.querySelectorAll(".rune");
+    existingRunes.forEach((rune) => rune.remove());
+
+    if (!this.reducedMotion && !this.isMobile) {
+      this.createMysticalRunes();
+    }
   }
 
   animatePrediction(element) {
@@ -316,12 +365,16 @@ class TomorrowInator {
       "ᛊ",
     ];
 
-    for (let i = 0; i < 8; i++) {
+    // Reduce number of runes on mobile
+    const runeCount = this.isMobile ? 4 : 8;
+    const margin = this.isMobile ? 30 : 50;
+
+    for (let i = 0; i < runeCount; i++) {
       const rune = document.createElement("div");
       rune.className = "rune";
       rune.textContent = this.getRandomItem(runes);
-      rune.style.left = Math.random() * (window.innerWidth - 50) + "px";
-      rune.style.top = Math.random() * (window.innerHeight - 50) + "px";
+      rune.style.left = Math.random() * (window.innerWidth - margin) + "px";
+      rune.style.top = Math.random() * (window.innerHeight - margin) + "px";
       rune.style.position = "fixed";
       rune.style.zIndex = "1";
       rune.style.animationDelay = Math.random() * 10 + "s";
@@ -331,15 +384,23 @@ class TomorrowInator {
   }
 
   createMysticalEffects() {
+    if (this.reducedMotion) return;
+
+    // Reduce sparkles on mobile for better performance
+    const sparkleCount = this.isMobile ? 10 : 20;
+    const sparkleDelay = this.isMobile ? 150 : 100;
+
     // Create extra sparkles during prediction
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < sparkleCount; i++) {
       setTimeout(() => {
         this.createAmbientSparkle();
-      }, i * 100);
+      }, i * sparkleDelay);
     }
 
-    // Create floating text effects
-    this.createFloatingText();
+    // Create floating text effects (skip on very small screens)
+    if (window.innerWidth > 320) {
+      this.createFloatingText();
+    }
   }
 
   createFloatingText() {
@@ -425,6 +486,27 @@ document.head.appendChild(style);
 // Initialize the app when the page loads
 document.addEventListener("DOMContentLoaded", () => {
   new TomorrowInator();
+
+  // Register service worker for better mobile experience (if available)
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js").catch(() => {
+      // Service worker registration failed, but app still works
+    });
+  }
+
+  // Prevent zoom on double tap for iOS
+  let lastTouchEnd = 0;
+  document.addEventListener(
+    "touchend",
+    function (event) {
+      const now = new Date().getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    },
+    false
+  );
 });
 
 // Add some fun console messages

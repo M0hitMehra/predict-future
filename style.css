@@ -16,6 +16,8 @@ body {
     height: 100vh;
     overflow: hidden;
     position: relative;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 body::before {
@@ -49,20 +51,22 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    padding: 20px;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 10px;
     position: relative;
     overflow-y: auto;
     max-height: 100vh;
+    box-sizing: border-box;
 }
 
 .crystal-ball {
     position: relative;
-    width: 200px;
-    height: 200px;
-    margin-bottom: 30px;
+    width: clamp(120px, 25vw, 200px);
+    height: clamp(120px, 25vw, 200px);
+    margin: 20px 0;
     filter: drop-shadow(0 0 30px rgba(138,43,226,0.8));
+    flex-shrink: 0;
 }
 
 .crystal-ball::before {
@@ -137,7 +141,7 @@ body::before {
 
 .title {
     font-family: 'Creepster', cursive;
-    font-size: 2.8rem;
+    font-size: clamp(1.5rem, 5vw, 2.8rem);
     text-align: center;
     margin-bottom: 10px;
     color: #fff;
@@ -149,6 +153,9 @@ body::before {
         0 5px 10px rgba(0,0,0,0.5);
     animation: flicker 3s ease-in-out infinite, textGlow 8s ease-in-out infinite;
     position: relative;
+    line-height: 1.2;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 @keyframes textGlow {
@@ -174,24 +181,28 @@ body::before {
 }
 
 .subtitle {
-    font-size: 1rem;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: clamp(20px, 5vh, 40px);
     font-style: italic;
     color: #dda0dd;
+    line-height: 1.4;
+    padding: 0 10px;
 }
 
 .prediction-box {
     background: rgba(0,0,0,0.7);
     border: 3px solid #8a2be2;
     border-radius: 20px;
-    padding: 30px;
-    margin: 30px 0;
-    max-width: 600px;
+    padding: clamp(15px, 4vw, 30px);
+    margin: clamp(15px, 3vh, 30px) clamp(10px, 2vw, 20px);
+    max-width: min(600px, 90vw);
+    width: 100%;
     text-align: center;
     box-shadow: 0 0 30px rgba(138,43,226,0.5);
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .prediction-box::before {
@@ -213,33 +224,40 @@ body::before {
 }
 
 .prediction-box h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: clamp(1rem, 3.5vw, 1.5rem);
+    margin-bottom: clamp(10px, 3vh, 20px);
     color: #ffd700;
+    line-height: 1.3;
 }
 
 .prediction-text {
-    font-size: 1.2rem;
+    font-size: clamp(0.9rem, 2.8vw, 1.2rem);
     line-height: 1.6;
-    min-height: 100px;
+    min-height: clamp(80px, 15vh, 120px);
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 .mystical-button {
     background: linear-gradient(45deg, #8a2be2, #4b0082);
     border: none;
     color: white;
-    padding: 15px 30px;
-    font-size: 1.2rem;
+    padding: clamp(12px, 3vw, 15px) clamp(20px, 5vw, 30px);
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
     font-family: 'Mystery Quest', cursive;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(138,43,226,0.4);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: clamp(1px, 0.3vw, 2px);
+    margin: clamp(10px, 2vh, 20px) 0;
+    min-height: 44px;
+    touch-action: manipulation;
 }
 
 .mystical-button:hover {
@@ -253,17 +271,20 @@ body::before {
 }
 
 .disclaimer {
-    margin-top: 40px;
+    margin-top: clamp(20px, 4vh, 40px);
     text-align: center;
-    font-size: 0.9rem;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
     color: #dda0dd;
+    padding: 0 10px;
+    line-height: 1.4;
 }
 
 .fine-print {
-    font-size: 0.7rem;
+    font-size: clamp(0.6rem, 1.5vw, 0.7rem);
     margin-top: 10px;
     font-style: italic;
     opacity: 0.7;
+    line-height: 1.3;
 }
 
 .sparkle {
@@ -349,18 +370,258 @@ body::before {
     }
 }
 
-@media (max-width: 768px) {
+/* Mobile First - Extra Small devices (phones, 320px and up) */
+@media (max-width: 480px) {
+    .container {
+        padding: 5px;
+        justify-content: flex-start;
+        padding-top: 10px;
+    }
+    
+    .crystal-ball {
+        width: clamp(100px, 30vw, 150px);
+        height: clamp(100px, 30vw, 150px);
+        margin: 10px 0;
+    }
+    
+    .crystal-ball::before {
+        top: -15px;
+        left: -15px;
+        right: -15px;
+        bottom: -15px;
+    }
+    
+    .inner-ball {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: calc(100% - 24px);
+    }
+    
     .title {
-        font-size: 2rem;
+        font-size: clamp(1.2rem, 6vw, 2rem);
+        margin-bottom: 5px;
+        padding: 0 5px;
+    }
+    
+    .subtitle {
+        font-size: clamp(0.7rem, 3vw, 0.9rem);
+        margin-bottom: 15px;
     }
     
     .prediction-box {
-        margin: 20px 10px;
-        padding: 20px;
+        margin: 10px 5px;
+        padding: 15px;
+        border-radius: 15px;
+        min-height: auto;
+    }
+    
+    .prediction-text {
+        min-height: 60px;
+        font-size: clamp(0.8rem, 3.5vw, 1rem);
     }
     
     .mystical-button {
-        padding: 12px 24px;
-        font-size: 1rem;
+        padding: 10px 20px;
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        letter-spacing: 1px;
+        margin: 10px 0;
+    }
+    
+    .disclaimer {
+        margin-top: 15px;
+        font-size: clamp(0.6rem, 2.5vw, 0.8rem);
+    }
+    
+    .fine-print {
+        font-size: clamp(0.5rem, 2vw, 0.6rem);
+    }
+    
+    /* Reduce mystical effects on small screens */
+    .sparkle, .ghost, .mystical-orb, .rune {
+        font-size: clamp(0.8rem, 3vw, 1.2rem);
+    }
+}
+
+/* Small devices (landscape phones, 481px and up) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .container {
+        padding: 10px;
+        justify-content: center;
+    }
+    
+    .crystal-ball {
+        width: clamp(140px, 25vw, 180px);
+        height: clamp(140px, 25vw, 180px);
+    }
+    
+    .title {
+        font-size: clamp(1.8rem, 4.5vw, 2.3rem);
+    }
+    
+    .prediction-box {
+        padding: 20px;
+        margin: 15px 10px;
+    }
+    
+    .mystical-button {
+        padding: 12px 25px;
+        font-size: clamp(1rem, 2.8vw, 1.1rem);
+    }
+}
+
+/* Medium devices (tablets, 769px and up) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .crystal-ball {
+        width: clamp(160px, 20vw, 200px);
+        height: clamp(160px, 20vw, 200px);
+    }
+    
+    .title {
+        font-size: clamp(2rem, 4vw, 2.5rem);
+    }
+    
+    .prediction-box {
+        padding: 25px;
+        max-width: 550px;
+    }
+}
+
+/* Large devices (desktops, 1025px and up) */
+@media (min-width: 1025px) {
+    .container {
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .crystal-ball {
+        width: 200px;
+        height: 200px;
+        margin: 30px 0;
+    }
+    
+    .title {
+        font-size: 2.8rem;
+    }
+    
+    .prediction-box {
+        padding: 30px;
+        max-width: 600px;
+    }
+}
+
+/* Extra large devices (large desktops, 1440px and up) */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .crystal-ball {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .title {
+        font-size: 3rem;
+    }
+    
+    .prediction-box {
+        padding: 35px;
+        max-width: 650px;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+    .container {
+        justify-content: flex-start;
+        padding-top: 5px;
+    }
+    
+    .crystal-ball {
+        width: clamp(80px, 15vh, 120px);
+        height: clamp(80px, 15vh, 120px);
+        margin: 5px 0;
+    }
+    
+    .title {
+        font-size: clamp(1.2rem, 4vh, 1.8rem);
+        margin-bottom: 5px;
+    }
+    
+    .subtitle {
+        margin-bottom: 10px;
+        font-size: clamp(0.7rem, 2vh, 0.9rem);
+    }
+    
+    .prediction-box {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .prediction-text {
+        min-height: 50px;
+    }
+    
+    .disclaimer {
+        margin-top: 10px;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .title {
+        text-shadow: 
+            0 0 5px #ff00ff, 
+            0 0 10px #ff00ff, 
+            0 0 15px #8a2be2,
+            0 0 20px #8a2be2,
+            0 2px 5px rgba(0,0,0,0.5);
+    }
+}
+
+/* Accessibility - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .crystal-ball::before,
+    .glow,
+    .swirls {
+        animation: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    /* Already optimized for dark mode */
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .crystal-ball,
+    .sparkle,
+    .ghost,
+    .mystical-orb,
+    .rune {
+        display: none;
+    }
+    
+    .title {
+        color: black !important;
+        text-shadow: none !important;
     }
 }
